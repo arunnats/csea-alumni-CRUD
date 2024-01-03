@@ -3,6 +3,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const alumniSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
+  name: String,
   password: String,
   graduationYear: Number,
   contactNumber: String,

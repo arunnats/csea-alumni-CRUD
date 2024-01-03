@@ -53,7 +53,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Alumni Register (Create - POST)
 app.post('/api/alumni/register', async (req, res) => {
   const {
     username,
@@ -70,12 +69,15 @@ app.post('/api/alumni/register', async (req, res) => {
 
     const newAlumni = new Alumni({
       username,
+      name,
       graduationYear,
       contactNumber,
       email,
       currentJob,
       alumniID: highestalumniID ? highestalumniID.alumniID + 1 : 1,
     });
+
+    console.log(newAlumni);
 
     await Alumni.register(newAlumni, password);
 
@@ -94,7 +96,6 @@ app.post('/api/alumni/register', async (req, res) => {
   }
 });
 
-// Alumni Login (Read - GET)
 app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) => {
   try {
     res.status(200).json({
@@ -112,29 +113,37 @@ app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) =>
   }
 });
 
-// Alumni Profile Update (Update - PUT)
-app.put('/api/alumni/update/:alumniID', async (req, res) => {
+app.post('/api/alumni/update/', async (req, res) => {
+  const data = req.body;
+  console.log("1");
+  console.log(data);
+  console.log("2");
   try {
-    const alumniID = parseInt(req.params.alumniID, 10);
+    const alumniID = data.alumniID;
     const alumni = await Alumni.findOne({ alumniID });
+    console.log(alumni);
     if (!alumni) {
       res.status(404).send('Alumni not found');
       return;
     }
 
-    const fieldsToUpdate = req.body;
+    //if (data.newPassword) {
+    //  alumni.setPassword(data.newPassword);
+    //}
 
-    for (const [key, value] of Object.entries(fieldsToUpdate)) {
-      if (alumni.schema.paths[key]) {
-        alumni[key] = value;
-      }
-    }
+    alumni.username = data.newUsername || alumni.newUsername;
+    alumni.name = data.name || alumni.name;
+    alumni.graduationYear = data.graduationYear || alumni.graduationYear;
+    alumni.contactNumber = data.contactNumber || alumni.contactNumber;
+    alumni.email = data.email || alumni.email;
+    alumni.currentJob = data.currentJob || alumni.currentJob;
 
     await alumni.save();
-
+    console.log("4");
+    console.log(alumni);
     res.status(200).json({
       id: alumni._id,
-      username: alumni.username,
+      username: alumni.newUsername,
       name: alumni.name,
       graduationYear: alumni.graduationYear,
       contactNumber: alumni.contactNumber,
@@ -152,9 +161,8 @@ app.put('/api/alumni/update/:alumniID', async (req, res) => {
 app.post('/api/alumni/delete/', async (req, res) => {
   const data = req.body;
   console.log(data);
-  /*
   try {
-    const alumniID = parseInt(req.params.alumniID, 10);
+    const alumniID = data.alumniID;
     console.log(alumniID);
     const deletedAlumni = await Alumni.findOneAndDelete({ alumniID });
 
@@ -167,7 +175,7 @@ app.post('/api/alumni/delete/', async (req, res) => {
   } catch (error) {
     console.error('Error during alumni deactivation:', error);
     res.status(500).send('Internal Server Error');
-  }*/
+  }
 });
 
 // View Alumni Profiles (Read - GET)

@@ -32,8 +32,8 @@
                 <!-- Update Form -->
                 <<form class="update-form" id="update-form">
                     <input type="text" id="alumniID" name="alumniID" placeholder="Alumni ID*" />
-                    <input type="text" id="newUsername" name="newUsername" placeholder="New Username" />
-                    <input type="password" id="newPassword" name="newPassword" placeholder="New Password" />
+                    <input type="text" id="newUsername" name="username" placeholder="New Username" />
+                    <input type="password" id="newPassword" name="password" placeholder="New Password" />
                     <input type="text" id="name" name="name" placeholder="Name" />
                     <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
                     <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
@@ -73,18 +73,25 @@
         }
     
         function handleUpdate() {
+            const alumniID = document.getElementById('alumniID').value;
+    
             const updateData = {
-                alumniID: document.getElementById('alumniID').value,
-                newUsername: document.getElementById('newUsername').value,
-                newPassword: document.getElementById('newPassword').value,
-                name: document.getElementById('name').value,
-                graduationYear: document.getElementById('graduationYear').value,
-                contactNumber: document.getElementById('contactNumber').value,
-                email: document.getElementById('email').value,
-                currentJob: document.getElementById('currentJob').value,
+                alumniID,
+                newUsername: getValue('newUsername'),
+                newPassword: getValue('newPassword'),
+                name: getValue('name'),
+                graduationYear: getValue('graduationYear'),
+                contactNumber: getValue('contactNumber'),
+                email: getValue('email'),
+                currentJob: getValue('currentJob'),
             };
     
             handleAction('Update', updateData);
+        }
+    
+        function getValue(elementId) {
+            const value = document.getElementById(elementId).value;
+            return value.trim() !== '' ? value : undefined;
         }
     
         function handleDeletion() {

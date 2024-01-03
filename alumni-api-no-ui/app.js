@@ -62,6 +62,7 @@ app.post('/api/alumni/register', async (req, res) => {
 
     const newAlumni = new Alumni({
       username,
+      name,
       graduationYear,
       contactNumber,
       email,
