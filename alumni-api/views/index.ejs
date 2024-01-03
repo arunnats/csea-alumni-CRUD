@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Management</title>
+</head>
+<body>
+    <main>
+        <div class="login-page">
+            <div class="login-form-container">
+              <div class="form">
+                <!-- Login Form -->
+                <form class="login-form" id="login-form" action="/api/alumni/login" method="get">
+                    <input type="text" id="username" name="username" placeholder="Username" />
+                    <input type="password" id="password" name="password" placeholder="Password" />
+                    <button id="loginButton" type="submit">Login</button>
+                </form>
+          
+                <!-- Registration Form -->
+                <form class="register-form" id="register-form" action="/api/alumni/register" method="post">
+                  <input type="text" id="newUsername" name="newUsername" placeholder="New Username" />
+                  <input type="password" id="newPassword" name="newPassword" placeholder="New Password" />
+                  <input type="text" id="name" name="name" placeholder="Name" />
+                  <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
+                  <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
+                  <input type="email" id="email" name="email" placeholder="Email" />
+                  <input type="text" id="currentJob" name="currentJob" placeholder="Current Job" />
+                  <button id="registerButton" type="submit">Register</button>
+                </form>
+
+                 <!-- Deletion Form -->
+                <form class="deletion-form" id="deletion-form" onsubmit="deleteAlumni(event)">
+                    <input type="text" id="username" name="username" placeholder="Username" />
+                    <button id="deleteButton" type="submit">Delete</button>
+                </form>
+           
+              </div>
+            </div>
+          </div> 
+    </main>
+
+    <script>
+        function deleteAlumni(event) {
+            event.preventDefault(); 
+        
+            const username = document.getElementById('username').value;
+        
+            fetch(`/api/alumni/delete/${username}`, { 
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if (response.status === 204) {
+
+
+                    console.log('Alumni deleted successfully');
+                } else if (response.status === 404) {
+                    console.log('Alumni not found');
+                } else {
+                    console.error('Error during alumni deletion:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error during alumni deletion:', error);
+            });
+        }
+    </script>
+    
+</body>
+</html>
