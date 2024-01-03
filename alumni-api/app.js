@@ -45,14 +45,19 @@ passport.serializeUser(Alumni.serializeUser());
 passport.deserializeUser(Alumni.deserializeUser());
 
 app.get('/', async (req, res) => {
-  res.render('index', {});
+  try {
+    res.render('index');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-// Alumni Registration (Create - POST)
+// Alumni Register (Create - POST)
 app.post('/api/alumni/register', async (req, res) => {
   const {
-    newUsername,
-    newPassword,
+    username,
+    password,
     name,
     graduationYear,
     contactNumber,
@@ -61,30 +66,34 @@ app.post('/api/alumni/register', async (req, res) => {
   } = req.body;
 
   try {
+    const highestalumniID = await Alumni.findOne({}, {}, { sort: { alumniID: -1 } });
+
     const newAlumni = new Alumni({
-      username: newUsername,
+      username,
       graduationYear,
       contactNumber,
       email,
       currentJob,
+      alumniID: highestalumniID ? highestalumniID.alumniID + 1 : 1,
     });
 
-    await Alumni.register(newAlumni, newPassword);
+    await Alumni.register(newAlumni, password);
+
     res.status(201).json({
-      id: newAlumni._id,
       username: newAlumni.username,
-      name: name,  
+      name: name,
       graduationYear: newAlumni.graduationYear,
       contactNumber: newAlumni.contactNumber,
       email: newAlumni.email,
       currentJob: newAlumni.currentJob,
+      alumniID: newAlumni.alumniID,
     });
   } catch (error) {
     console.error('Error registering alumni:', error);
     res.status(500).send('Internal Server Error');
   }
 });
-  
+
 // Alumni Login (Read - GET)
 app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) => {
   try {
@@ -104,41 +113,74 @@ app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) =>
 });
 
 // Alumni Profile Update (Update - PUT)
-app.put('/api/alumni/update/:alumniId', async (req, res) => {
-
-});
-
-// Alumni Deactivation (Delete - DELETE)
-app.delete('/api/alumni/delete', async (req, res) => {
+app.put('/api/alumni/update/:alumniID', async (req, res) => {
   try {
-      const username = req.params.username;
-      console.log('Received username:', username);
+    const alumniID = parseInt(req.params.alumniID, 10);
+    const alumni = await Alumni.findOne({ alumniID });
+    if (!alumni) {
+      res.status(404).send('Alumni not found');
+      return;
+    }
 
-      const deletedAlumni = await Alumni.findOneAndDelete({ username });
+    const fieldsToUpdate = req.body;
 
-      if (!deletedAlumni) {
-          res.status(404).send('Alumni not found');
-          return;
+    for (const [key, value] of Object.entries(fieldsToUpdate)) {
+      if (alumni.schema.paths[key]) {
+        alumni[key] = value;
       }
+    }
 
-      res.status(204).send();
+    await alumni.save();
+
+    res.status(200).json({
+      id: alumni._id,
+      username: alumni.username,
+      name: alumni.name,
+      graduationYear: alumni.graduationYear,
+      contactNumber: alumni.contactNumber,
+      email: alumni.email,
+      currentJob: alumni.currentJob
+    });
+
   } catch (error) {
-      console.error('Error during alumni deletion:', error);
-      res.status(500).send('Internal Server Error');
+    console.error('Error during alumni updation:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
+// Alumni Deactivation (Delete - DELETE)
+app.post('/api/alumni/delete/', async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  /*
+  try {
+    const alumniID = parseInt(req.params.alumniID, 10);
+    console.log(alumniID);
+    const deletedAlumni = await Alumni.findOneAndDelete({ alumniID });
+
+    if (!deletedAlumni) {
+      res.status(404).send('Alumni not found');
+      return;
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error during alumni deactivation:', error);
+    res.status(500).send('Internal Server Error');
+  }*/
+});
 
 // View Alumni Profiles (Read - GET)
 app.get('/api/alumni/all', async (req, res) => {
   try {
-    const alumniProfiles = await Alumni.find({}, '_id name graduationYear currentJob');
+    const alumniProfiles = await Alumni.find({}, 'alumniID name graduationYear currentJob');
     res.status(200).json(alumniProfiles);
   } catch (error) {
     console.error('Error while fetching alumni profiles:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 app.listen(port, () => {
 console.log(`Server is running on port ${port}`);

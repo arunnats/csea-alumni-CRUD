@@ -19,8 +19,8 @@
           
                 <!-- Registration Form -->
                 <form class="register-form" id="register-form" action="/api/alumni/register" method="post">
-                  <input type="text" id="newUsername" name="newUsername" placeholder="New Username" />
-                  <input type="password" id="newPassword" name="newPassword" placeholder="New Password" />
+                  <input type="text" id="username" name="username" placeholder="New Username" />
+                  <input type="password" id="password" name="password" placeholder="New Password" />
                   <input type="text" id="name" name="name" placeholder="Name" />
                   <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
                   <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
@@ -28,11 +28,29 @@
                   <input type="text" id="currentJob" name="currentJob" placeholder="Current Job" />
                   <button id="registerButton" type="submit">Register</button>
                 </form>
+                
+                <!-- Update Form -->
+                <<form class="update-form" id="update-form">
+                    <input type="text" id="alumniID" name="alumniID" placeholder="Alumni ID*" />
+                    <input type="text" id="newUsername" name="newUsername" placeholder="New Username" />
+                    <input type="password" id="newPassword" name="newPassword" placeholder="New Password" />
+                    <input type="text" id="name" name="name" placeholder="Name" />
+                    <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
+                    <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
+                    <input type="email" id="email" name="email" placeholder="Email" />
+                    <input type="text" id="currentJob" name="currentJob" placeholder="Current Job" />
+                    <button id="updateButton" type="button" onclick="handleUpdate()">Update</button>
+                </form>
 
                  <!-- Deletion Form -->
-                <form class="deletion-form" id="deletion-form" onsubmit="deleteAlumni(event)">
-                    <input type="text" id="username" name="username" placeholder="Username" />
-                    <button id="deleteButton" type="submit">Delete</button>
+                 <form class="deletion-form" id="deletion-form">
+                    <input type="text" id="deleteAlumniID" name="alumniID" placeholder="Alumni ID" />
+                    <button id="deleteButton" type="button" onclick="handleDeletion()">Delete</button>
+                </form>
+
+                <!-- Show all button -->
+                <form class="all-form" id="all-form" action="/api/alumni/all" method="get">
+                    <button id="allButton" type="submit">Show all</button>
                 </form>
            
               </div>
@@ -41,33 +59,55 @@
     </main>
 
     <script>
-        function deleteAlumni(event) {
-            event.preventDefault(); 
-        
-            const username = document.getElementById('username').value;
-        
-            fetch(`/api/alumni/delete/${username}`, { 
-                method: 'DELETE',
+        function sendPostRequest(url, data) {
+            console.log(JSON.stringify(data));
+            return fetch(url, {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(data),
             })
-            .then(response => {
-                if (response.status === 204) {
-
-
-                    console.log('Alumni deleted successfully');
-                } else if (response.status === 404) {
-                    console.log('Alumni not found');
-                } else {
-                    console.error('Error during alumni deletion:', response.statusText);
-                }
-            })
-            .catch(error => {
-                console.error('Error during alumni deletion:', error);
-            });
+            .then(response => response.json())
+            .catch(error => console.error(error));
+        }
+    
+        function handleUpdate() {
+            const updateData = {
+                alumniID: document.getElementById('alumniID').value,
+                newUsername: document.getElementById('newUsername').value,
+                newPassword: document.getElementById('newPassword').value,
+                name: document.getElementById('name').value,
+                graduationYear: document.getElementById('graduationYear').value,
+                contactNumber: document.getElementById('contactNumber').value,
+                email: document.getElementById('email').value,
+                currentJob: document.getElementById('currentJob').value,
+            };
+    
+            handleAction('Update', updateData);
+        }
+    
+        function handleDeletion() {
+            const deleteData = {
+                alumniID: document.getElementById('deleteAlumniID').value,
+            };
+    
+            handleAction('Delete', deleteData);
+        }
+    
+        function handleAction(action, inputData) {
+            console.log(`Action: ${action}`);
+            console.log('Input Data:', inputData);
+    
+            const apiUrl = 'http://localhost:3000/api/alumni/' + action.toLowerCase();
+            console.log(apiUrl);
+    
+            sendPostRequest(apiUrl, inputData)
+                .then(response => {
+                    console.log('Server response:', response);
+                });
         }
     </script>
-    
+
 </body>
 </html>

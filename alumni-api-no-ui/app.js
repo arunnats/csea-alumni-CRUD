@@ -117,9 +117,7 @@ app.put('/api/alumni/update/:alumniID', async (req, res) => {
 
     const fieldsToUpdate = req.body;
 
-    // Update the corresponding fields in the alumni object
     for (const [key, value] of Object.entries(fieldsToUpdate)) {
-      // Check if the field exists in the alumni schema
       if (alumni.schema.paths[key]) {
         alumni[key] = value;
       }
