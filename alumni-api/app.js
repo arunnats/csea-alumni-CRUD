@@ -53,6 +53,25 @@ app.get('/', async (req, res) => {
   }
 });
 
+app.get('/registration', async (req, res) => {
+  try {
+    res.render('register');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/dashboard', async (req, res) => {
+  try {
+    res.render('dashboard');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 app.post('/api/alumni/register', async (req, res) => {
   const {
     username,
@@ -115,35 +134,40 @@ app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) =>
 
 app.post('/api/alumni/update/', async (req, res) => {
   const data = req.body;
-  console.log("1");
-  console.log(data);
-  console.log("2");
+
   try {
     const alumniID = data.alumniID;
     const alumni = await Alumni.findOne({ alumniID });
-    console.log(alumni);
+
     if (!alumni) {
       res.status(404).send('Alumni not found');
       return;
     }
 
-    //if (data.newPassword) {
-    //  alumni.setPassword(data.newPassword);
-    //}
-
-    alumni.username = data.newUsername || alumni.newUsername;
-    alumni.name = data.name || alumni.name;
-    alumni.graduationYear = data.graduationYear || alumni.graduationYear;
-    alumni.contactNumber = data.contactNumber || alumni.contactNumber;
-    alumni.email = data.email || alumni.email;
-    alumni.currentJob = data.currentJob || alumni.currentJob;
+    if (data.newUsername !== undefined && data.newUsername !== '') {
+      alumni.username = data.newUsername;
+    }
+    if (data.name !== undefined && data.name !== '') {
+      alumni.name = data.name;
+    }
+    if (data.graduationYear !== undefined && data.graduationYear !== '') {
+      alumni.graduationYear = data.graduationYear;
+    }
+    if (data.contactNumber !== undefined && data.contactNumber !== '') {
+      alumni.contactNumber = data.contactNumber;
+    }
+    if (data.email !== undefined && data.email !== '') {
+      alumni.email = data.email;
+    }
+    if (data.currentJob !== undefined && data.currentJob !== '') {
+      alumni.currentJob = data.currentJob;
+    }
 
     await alumni.save();
-    console.log("4");
-    console.log(alumni);
+
     res.status(200).json({
       id: alumni._id,
-      username: alumni.newUsername,
+      username: alumni.username,
       name: alumni.name,
       graduationYear: alumni.graduationYear,
       contactNumber: alumni.contactNumber,
@@ -157,7 +181,68 @@ app.post('/api/alumni/update/', async (req, res) => {
   }
 });
 
-// Alumni Deactivation (Delete - DELETE)
+app.post('/api/alumni/resetpass', async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  try {
+    const alumniID = data.alumniID;
+    const alumni = await Alumni.findOne({ alumniID });
+
+    if (!alumni) {
+      res.status(404).send('Alumni not found');
+      return;
+    }
+
+    if (!alumni.authenticate(data.currentPassword)) {
+      res.status(401).send('Incorrect current password');
+      return;
+    }
+
+    const deletedAlumni = await Alumni.findOneAndDelete({ alumniID });
+
+    console.log("deleted")
+    console.log(alumni);
+
+    const username = alumni.username;
+    const name = alumni.name;
+    const graduationYear = alumni.graduationYear;
+    const contactNumber = alumni.contactNumber;
+    const email = alumni.email;
+    const currentJob = alumni.currentJob;
+
+    const newAlumni = new Alumni({
+      username,
+      name,
+      graduationYear,
+      contactNumber,
+      email,
+      currentJob,
+      alumniID,
+    });
+
+    console.log(newAlumni);
+
+    await Alumni.register(newAlumni, data.newPassword);
+
+    res.status(200).json({
+      id: newAlumni._id,
+      username: newAlumni.username,
+      name: newAlumni.name,
+      graduationYear: newAlumni.graduationYear,
+      contactNumber: newAlumni.contactNumber,
+      email: newAlumni.email,
+      currentJob: newAlumni.currentJob,
+      alumniID: newAlumni.alumniID,
+    });
+
+
+  } catch (error) {
+    console.error('Error during password updation:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 app.post('/api/alumni/delete/', async (req, res) => {
   const data = req.body;
   console.log(data);
@@ -178,7 +263,6 @@ app.post('/api/alumni/delete/', async (req, res) => {
   }
 });
 
-// View Alumni Profiles (Read - GET)
 app.get('/api/alumni/all', async (req, res) => {
   try {
     const alumniProfiles = await Alumni.find({}, 'alumniID name graduationYear currentJob');

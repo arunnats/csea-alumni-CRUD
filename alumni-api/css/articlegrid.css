@@ -1,0 +1,783 @@
+.container-current-mag {
+    padding-top: 20px;
+    width: 90%; /* The div spans 80% of the page width */
+    margin: 10px auto; /* The div has 10px margins on top and bottom, and auto margins on left and right */
+    height: 300px; /* The div has a fixed height of 600px */
+    display: grid; /* The div uses a grid layout */
+    grid-template-columns: 1.5fr 1fr; /* The div has two columns of size 2/3 and 1/3 */
+    grid-template-rows: 4fr 1fr; /* The div has two rows of size 3/4 and 1/4 */
+    grid-gap: 10px; /* The div has a gap of 10px between the grid items */
+    overflow: hidden;
+  }
+  
+  .left-col-mag {
+    grid-column: 1 / 2; /* The left region occupies the first column */
+    grid-row: 1 / 3; /* The left region occupies both rows */
+    background-color: lightblue; /* The left region has a light blue background color */
+  }
+  
+  .right-col-top {
+    grid-column: 2 / 3; /* The right-top region occupies the second column */
+    grid-row: 1 / 2; /* The right-top region occupies the first row */
+    background-color: lightgreen; /* The right-top region has a light green background color */
+  }
+  
+  .right-col-bottom {
+    grid-column: 2 / 3; /* The right-bottom region occupies the second column */
+    grid-row: 2 / 3; /* The right-bottom region occupies the second row */
+    background-color: lightpink; /* The right-bottom region has a light pink background color */
+  }
+  
+  .cover-current-mag{
+    width: 100%; /* The image fills the width of the right-top region */
+    height: 100%; /* The image fills the height of the right-top region */
+    object-fit: cover; /* The image is cropped to fit the region */
+  }
+  
+  /*.grid__item {
+    position: relative;       for the lines did not work
+  
+  }
+  
+  .grid__item::before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    background-color: black;
+    top: 0;
+    left: -5px;
+  }*/
+  
+  .container-current-articles {
+    padding-top: 20px;
+    width: 90%; /* The div spans 80% of the page width */
+    margin: 10px auto; /* The div has 10px margins on top and bottom, and auto margins on left and right */
+    height: 450px; /* The div has a fixed height of 600px */
+    display: grid; /* The div uses a gr id layout */
+    grid-template-columns: 2fr 1fr 1fr; /* The div has three columns of size 4/6, 1/6, and 1/6 */
+    grid-template-rows: 1fr 1fr; /* The div has two rows of size 2/3 and 1/3 */
+    grid-gap: 10px; /* The div has a gap of 10px between the grid items */
+    overflow: hidden;
+  }
+  
+  .right-col-1 {
+    grid-column-start:  2; /* The right-top region starts from the second column */
+    grid-column-end: 3; /* The right-top region ends at the third column */
+    grid-row-start: 1 ; /* The right-top region starts from the first row */
+    grid-row-end: 2; /* The right-top region ends at the second row */
+    background-color: lightpink; /* The right-top region has a light pink background color */
+  }
+  
+  .right-col-2 {
+    grid-column-start:  3; /* The right-top region starts from the third column */
+    grid-column-end: 4; /* The right-top region ends at the fourth column */
+    grid-row-start: 1 ; /* The right-top region starts from the first row */
+    grid-row-end: 2; /* The right-top region ends at the second row */
+    background-color: lightpink; /* The right-top region has a light pink background color */
+  }
+  
+  .right-col-3 {
+    grid-column-start:  2; /* The right-bottom region starts from the second column */
+    grid-column-end: 3; /* The right-bottom region ends at the third column */
+    grid-row-start: 2 ; /* The right-bottom region starts from the second row */
+    grid-row-end: 3; /* The right-bottom region ends at the third row */
+    background-color: lightpink; /* The right-bottom region has a light pink background color */
+  }
+  
+  .right-col-4 {
+    grid-column-start:  3; /* The right-bottom region starts from the third column */
+    grid-column-end: 4; /* The right-bottom region ends at the fourth column */
+    grid-row-start: 2 ; /* The right-bottom region starts from the second row */
+    grid-row-end: 3; /* The right-bottom region ends at the third row */
+    background-color: lightpink; /* The right-bottom region has a light pink background color */
+  }
+  
+  .left-col-article {
+    grid-column-start:  1; /* The left region starts from the first column */
+    grid-column-end: 2; /* The left region ends at the second column */
+    grid-row-start: 1 ; /* The left region starts from the first row */
+    grid-row-end: 3; /* The left region ends at the third row */
+    background-color: lightblue; /* The left region has a light blue background color */
+  }
+  
+  .container-current-misc {
+    padding-top: 20px;
+    width: 90%; /* The div spans 80% of the page width */
+    margin: 10px auto; /* The div has 10px margins on top and bottom, and auto margins on left and right */
+    height: 400px; /* The div has a fixed height of 600px */
+    display: grid; /* The div uses a gr id layout */
+    grid-template-columns: 2.5fr 1.5fr; /* The div has three columns of size 4/6, 1/6, and 1/6 */
+    grid-template-rows: 1.5fr 2fr; /* The div has two rows of size 2/3 and 1/3 */
+    grid-gap: 10px; /* The div has a gap of 10px between the grid items */
+    overflow: hidden;
+  }
+  
+  .left-submissions {
+    grid-column-start:  1; /* The left region starts from the first column */
+    grid-column-end: 2; /* The left region ends at the second column */
+    grid-row-start: 1 ; /* The left region starts from the first row */
+    grid-row-end: 2; /* The left region ends at the third row */
+    background-color: lightblue; /* The left region has a light blue background color */
+  }
+  
+  .left-about {
+    grid-column-start:  1; /* The left region starts from the first column */
+    grid-column-end: 2; /* The left region ends at the second column */
+    grid-row-start: 2 ; /* The left region starts from the first row */
+    grid-row-end: 3; /* The left region ends at the third row */
+    background-color: lightblue; /* The left region has a light blue background color */
+  }
+  
+  .right_newsletter {
+    grid-column-start:  2; /* The left region starts from the first column */
+    grid-column-end: 3; /* The left region ends at the second column */
+    grid-row-start: 1 ; /* The left region starts from the first row */
+    grid-row-end: 3; /* The left region ends at the third row */
+    background-color: lightblue; /* The left region has a light blue background color */
+  }
+  
+  .container-article-archive {
+    padding-top: 20px;
+    width: 90%;
+    margin: 10px auto;
+    height: 2050px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1.5fr 1.5fr;
+    grid-template-rows: 0.5fr 1.5fr 1.5fr 1fr 1fr 1.5fr 1.5fr 1fr 1fr 1.5fr 1.5fr 1fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas: 
+      "art-title art-title art-title art-title art-title"
+      "art-5 art-5 art-5 art-5 art-1"
+      "art-5 art-5 art-5 art-5 art-1"
+      "art-6 art-6 news news art-1"
+      "art-6 art-6 art-7 art-7 art-1"
+      "art-6 art-6 art-7 art-7 art-2"
+      "art-6 art-6 art-9 art-9 art-2"
+      "art-6 art-6 art-9 art-9 art-2"
+      "art-4 art-4 art-4 art-4 art-2"
+      "art-4 art-4 art-4 art-4 art-3"
+      "sub1 sub1 sub1 sub1 art-3"
+      "art-8 art-8 art-8 art-8 art-3"
+      "art-8 art-8 art-8 art-8 art-3";
+  }
+
+  
+  
+  .art-title {
+    grid-area: art-title;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    text-decoration: underline;
+  }
+  
+  .art-1 {
+    grid-area: art-1;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr 1fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-1-img"
+      "art-1-img"
+      "art-1-cap"
+      "art-1-cap";
+  }
+  
+  .art-1-img {
+    grid-area: art-1-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-1-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: relative;
+  }
+  
+  .art-1-cap {
+    grid-area: art-1-cap;
+  }
+  
+  .art-1-img h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    text-decoration: underline;
+  }
+  
+  .art-1-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-1-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .news {
+    grid-area: news;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; 
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .news p{
+    color: whitesmoke;
+    font-size: 20px;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .news h3{
+    color: whitesmoke;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .sub {
+    grid-area: sub1;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; 
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sub p{
+    color: whitesmoke;
+    font-size: 20px;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .sub h3{
+    color: whitesmoke;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+  }
+
+  .art-2 {
+    grid-area: art-2;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr 1fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-2-img"
+      "art-2-img"
+      "art-2-cap"
+      "art-2-cap";
+  }
+  
+  .art-2-img {
+    grid-area: art-2-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-2-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: relative;
+  }
+  
+  .art-2-cap {
+    grid-area: art-2-cap;
+  }
+  
+  .art-2-img h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    text-decoration: underline;
+  }
+  
+  .art-2-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-2-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-3 {
+    grid-area: art-3;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr 1fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-3-img"
+      "art-3-img"
+      "art-3-cap"
+      "art-3-cap";
+  }
+  
+  .art-3-img {
+    grid-area: art-3-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-3-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: relative;
+  }
+  
+  .art-3-cap {
+    grid-area: art-3-cap;
+  }
+  
+  .art-3-img h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    text-decoration: underline;
+  }
+  
+  .art-3-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-3-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-4 {
+    grid-area: art-4;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-4-img art-4-img art-4-cap art-4-cap"
+      "art-4-img art-4-img art-4-cap art-4-cap";
+  }
+  
+  .art-4-img {
+    grid-area: art-4-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-4-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: absolute;
+  }
+  
+  .art-4-cap {
+    grid-area: art-4-cap;
+  }
+  
+  .art-4-cap h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    text-decoration: underline;
+  }
+  
+  .art-4-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-4-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-5 {
+    grid-area: art-5;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-5-img art-5-img art-5-cap art-5-cap"
+      "art-5-img art-5-img art-5-cap art-5-cap";
+  }
+  
+  .art-5-img {
+    grid-area: art-5-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-5-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: absolute;
+  }
+  
+  .art-5-cap {
+    grid-area: art-5-cap;
+  }
+  
+  .art-5-cap h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    text-decoration: underline;
+  }
+  
+  .art-5-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-5-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-6 {
+    grid-area: art-6;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.5fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-6-img art-6-img"
+      "art-6-cap art-6-cap"
+      "art-6-cap art-6-cap"
+      "art-6-cap art-6-cap"
+      "art-6-cap art-6-cap";
+  }
+  
+  .art-6-img {
+    grid-area: art-6-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .art-6-img img {
+    padding: 5px;
+    padding-top: 0px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: relative;
+  }
+  
+  .art-6-cap {
+    grid-area: art-6-cap;
+  }
+  
+  .art-6-img h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    text-decoration: underline;
+  }
+  
+  .art-6-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-6-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-7 {
+    grid-area: art-7;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1.5fr 1.5fr;
+    grid-template-rows: 1.5fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-7-img art-7-cap"
+      "art-7-img art-7-cap";
+  }
+  
+  .art-7-img {
+    grid-area: art-7-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-7-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: absolute;
+  }
+  
+  .art-7-cap {
+    grid-area: art-7-cap;
+  }
+  
+  .art-7-cap h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: bold;
+    padding: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    text-decoration: underline;
+  }
+  
+  .art-7-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-7-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-8 {
+    grid-area: art-8;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+    grid-template-rows: 1.5fr 1.5fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-8-img art-8-img art-8-cap art-8-cap"
+      "art-8-img art-8-img art-8-cap art-8-cap";
+  }
+  
+  .art-8-img {
+    grid-area: art-8-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-8-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: absolute;
+  }
+  
+  .art-8-cap {
+    grid-area: art-8-cap;
+  }
+  
+  .art-8-cap h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    font-weight: bold;
+    padding: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    text-decoration: underline;
+  }
+  
+  .art-8-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-8-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  
+  .art-9 {
+    grid-area: art-9;
+    display: grid;
+    border: 1px solid #2F4858;
+    grid-template-columns: 1.5fr 1.5fr;
+    grid-template-rows: 1fr 1.5fr;
+    grid-gap: 10px;
+    overflow: hidden;
+    grid-template-areas:
+      "art-9-img art-9-cap"
+      "art-9-img art-9-cap";
+  }
+  
+  .art-9-img {
+    grid-area: art-9-img;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+  }
+  
+  .art-9-img img {
+    padding: 5px;
+    width: 100%; /* Set width to 100% */
+    height: 100%; /* Set height to 100% */
+    object-fit: contain; 
+    position: absolute;
+  }
+  
+  .art-9-cap {
+    grid-area: art-9-cap;
+  }
+  
+  .art-9-cap h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: bold;
+    padding: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    text-decoration: underline;
+  }
+  
+  .art-9-cap p {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    text-align: justify;
+    padding: 5px;
+  }
+  
+  .art-9-cap span {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }

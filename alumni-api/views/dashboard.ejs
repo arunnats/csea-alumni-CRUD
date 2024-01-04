@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Alumni Api's CSEA</title>
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/loginbox.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h3>Alumni Affairs Management - CSEA</h3>
+        </div>
+    </header>
+    <main>
+        <div class="admin-page">
+            <div>
+                <h1 class="dashboardText">Admin dashboard</h1>
+            </div>
+            <div class="admin-form-container">
+                <div class="form">
+                    <form class="admin-form" id="adminSelector">
+                        <button class="adminButton" id="updateDetailsButton" type="button">Update Details</button>
+                        <button class="adminButton" id="allButton" type="button">Show All</button>
+                        <button class="adminButton" id="changePasswordButton" type="button">Change Password</button>
+                        <button class="adminButton" id="deleteAlumniButton" type="button">Delete Alumni</button>
+                    </form>
+                </div>
+                <div id="dynamicContent"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        $(document).ready(function () {
+            $('.adminButton').click(function () {
+                const action = $(this).text(); 
+                let field;
+                generateInputFields(action);
+            });
+
+            function generateInputFields(action) {
+                $('#dynamicContent').empty();
+
+                switch (action) {
+                    case 'Update Details':
+                        addInputField('Alumni ID', 'alumniID');
+                        addInputField('Username', 'username');
+                        addInputField('Name', 'name');
+                        addInputField('Graduation year', 'graduationYear');
+                        addInputField('Contact Number', 'contactNumber');
+                        addInputField('Email', 'email');
+                        addInputField('Current Job', 'currentJob');
+                        field = "update";
+                        break;
+
+                    case 'Change Password':
+                        addInputField('Alumni ID', 'alumniID');
+                        addInputField('Current Password', 'currentPassword');
+                        addInputField('New Password', 'newPassword');
+                        field = "resetpass";
+                        break;
+
+                    case 'Delete Alumni':
+                        addInputField('Alumni ID', 'alumniID');
+                        field = "delete";
+                        break;
+
+                    case 'Show All':
+                        // Handle the "Show All" functionality here
+                        const apiUrl = 'http://localhost:3000/api/alumni/all';
+
+                        fetch(apiUrl)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Handle the response data as needed
+                                console.log('All Alumni:', data);
+                                // Update the UI or perform other actions
+                            })
+                            .catch(error => console.error(error));
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (action !== 'Show All') {
+                    $('#dynamicContent').append('<button type="button" id="submitButton">Submit</button>');
+
+                    $('#submitButton').click(function () {
+                        const inputData = {};
+                        $('#dynamicContent input, #dynamicContent textarea').each(function () {
+                            inputData[$(this).data('fieldName')] = $(this).val();
+                        });
+
+                        handleAction(action, inputData);
+                    });
+                }
+            }
+
+            function addInputField(label, fieldName, isTextArea = false) {
+                let inputField;
+
+                if (isTextArea) {
+                    inputField = $(`<div><label>${label}</label><textarea data-field-name="${fieldName}"></textarea></div>`);
+                } else {
+                    inputField = $(`<div><label>${label}</label><input type="text" data-field-name="${fieldName}"></div>`);
+                }
+
+                $('#dynamicContent').append(inputField);
+            }
+
+            function sendPostRequest(url, data) {
+                console.log(JSON.stringify(data));
+                return fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => response.json())
+                    .catch(error => console.error(error));
+            }
+
+            function handleAction(action, inputData) {
+                console.log(`Action: ${action}`);
+                console.log('Input Data:', inputData);
+
+                const apiUrl = 'http://localhost:3000/api/alumni/' + field;
+
+                // Send a POST request with the input data
+                sendPostRequest(apiUrl, inputData)
+                    .then(response => {
+                        console.log('Server response:', response);
+                        // Handle the response as needed
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

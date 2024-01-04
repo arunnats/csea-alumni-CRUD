@@ -1,120 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alumni Management</title>
-</head>
-<body>
-    <main>
-        <div class="login-page">
-            <div class="login-form-container">
-              <div class="form">
-                <!-- Login Form -->
-                <form class="login-form" id="login-form" action="/api/alumni/login" method="get">
-                    <input type="text" id="username" name="username" placeholder="Username" />
-                    <input type="password" id="password" name="password" placeholder="Password" />
-                    <button id="loginButton" type="submit">Login</button>
-                </form>
-          
-                <!-- Registration Form -->
-                <form class="register-form" id="register-form" action="/api/alumni/register" method="post">
-                  <input type="text" id="username" name="username" placeholder="New Username" />
-                  <input type="password" id="password" name="password" placeholder="New Password" />
-                  <input type="text" id="name" name="name" placeholder="Name" />
-                  <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
-                  <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
-                  <input type="email" id="email" name="email" placeholder="Email" />
-                  <input type="text" id="currentJob" name="currentJob" placeholder="Current Job" />
-                  <button id="registerButton" type="submit">Register</button>
-                </form>
-                
-                <!-- Update Form -->
-                <<form class="update-form" id="update-form">
-                    <input type="text" id="alumniID" name="alumniID" placeholder="Alumni ID*" />
-                    <input type="text" id="newUsername" name="username" placeholder="New Username" />
-                    <input type="password" id="newPassword" name="password" placeholder="New Password" />
-                    <input type="text" id="name" name="name" placeholder="Name" />
-                    <input type="number" id="graduationYear" name="graduationYear" placeholder="Graduation Year" />
-                    <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" />
-                    <input type="email" id="email" name="email" placeholder="Email" />
-                    <input type="text" id="currentJob" name="currentJob" placeholder="Current Job" />
-                    <button id="updateButton" type="button" onclick="handleUpdate()">Update</button>
-                </form>
+    <script bis_use="true" type="text/javascript" charset="utf-8"com ></script>
+    <title>Alumni Api's CSEA</title>
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/loginbox.css" rel="stylesheet">
+  </head>
 
-                 <!-- Deletion Form -->
-                 <form class="deletion-form" id="deletion-form">
-                    <input type="text" id="deleteAlumniID" name="alumniID" placeholder="Alumni ID" />
-                    <button id="deleteButton" type="button" onclick="handleDeletion()">Delete</button>
-                </form>
+    <header>
+        <div class="header">
+            <h3>Alumni Affairs Management - C</h3>
+        </div>
+    </header>
+    <body>
+        <main>
+            <div class="login-page">
+                <div class="login-form-container">
+                <div class="form">
+                    <!-- Login Form -->
+                    <form class="login-form" id="login-form" action="/api/alumni/login" method="get">
+                        <input type="text" id="username" name="username" placeholder="Username" />
+                        <input type="password" id="password" name="password" placeholder="Password" />
+                        <button id="loginButton" type="submit">Login</button>
+                    </form>
 
-                <!-- Show all button -->
-                <form class="all-form" id="all-form" action="/api/alumni/all" method="get">
-                    <button id="allButton" type="submit">Show all</button>
-                </form>
-           
-              </div>
-            </div>
-          </div> 
-    </main>
-
-    <script>
-        function sendPostRequest(url, data) {
-            console.log(JSON.stringify(data));
-            return fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .catch(error => console.error(error));
-        }
-    
-        function handleUpdate() {
-            const alumniID = document.getElementById('alumniID').value;
-    
-            const updateData = {
-                alumniID,
-                newUsername: getValue('newUsername'),
-                newPassword: getValue('newPassword'),
-                name: getValue('name'),
-                graduationYear: getValue('graduationYear'),
-                contactNumber: getValue('contactNumber'),
-                email: getValue('email'),
-                currentJob: getValue('currentJob'),
-            };
-    
-            handleAction('Update', updateData);
-        }
-    
-        function getValue(elementId) {
-            const value = document.getElementById(elementId).value;
-            return value.trim() !== '' ? value : undefined;
-        }
-    
-        function handleDeletion() {
-            const deleteData = {
-                alumniID: document.getElementById('deleteAlumniID').value,
-            };
-    
-            handleAction('Delete', deleteData);
-        }
-    
-        function handleAction(action, inputData) {
-            console.log(`Action: ${action}`);
-            console.log('Input Data:', inputData);
-    
-            const apiUrl = 'http://localhost:3000/api/alumni/' + action.toLowerCase();
-            console.log(apiUrl);
-    
-            sendPostRequest(apiUrl, inputData)
-                .then(response => {
-                    console.log('Server response:', response);
-                });
-        }
-    </script>
-
-</body>
+                    <a href="./registration"><button>Register</button></a>
+            
+                </div>
+                </div>
+            </div> 
+        </main>
+    </body>
 </html>

@@ -161,6 +161,69 @@ app.delete('/api/alumni/delete/:alumniID', async (req, res) => {
   }
 });
 
+// Change Profile Password (Update - POST)
+app.post('/api/alumni/resetpass', async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  try {
+    const alumniID = data.alumniID;
+    const alumni = await Alumni.findOne({ alumniID });
+
+    if (!alumni) {
+      res.status(404).send('Alumni not found');
+      return;
+    }
+
+    if (!alumni.authenticate(data.currentPassword)) {
+      res.status(401).send('Incorrect current password');
+      return;
+    }
+
+    const deletedAlumni = await Alumni.findOneAndDelete({ alumniID });
+
+    console.log("deleted")
+    console.log(alumni);
+
+    const username = alumni.username;
+    const name = alumni.name;
+    const graduationYear = alumni.graduationYear;
+    const contactNumber = alumni.contactNumber;
+    const email = alumni.email;
+    const currentJob = alumni.currentJob;
+
+    const newAlumni = new Alumni({
+      username,
+      name,
+      graduationYear,
+      contactNumber,
+      email,
+      currentJob,
+      alumniID,
+    });
+
+    console.log(newAlumni);
+
+    await Alumni.register(newAlumni, data.newPassword);
+
+    res.status(200).json({
+      id: newAlumni._id,
+      username: newAlumni.username,
+      name: newAlumni.name,
+      graduationYear: newAlumni.graduationYear,
+      contactNumber: newAlumni.contactNumber,
+      email: newAlumni.email,
+      currentJob: newAlumni.currentJob,
+      alumniID: newAlumni.alumniID,
+    });
+
+
+  } catch (error) {
+    console.error('Error during password updation:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 // View Alumni Profiles (Read - GET)
 app.get('/api/alumni/all', async (req, res) => {
   try {
