@@ -75,6 +75,10 @@ app.get('/dashboard', async (req, res) => {
   }
 });
 
+app.get('/logout. ',async (req, res) => {
+  req.logout();
+  res.redirect('/login');
+});
 
 app.post('/api/alumni/register', async (req, res) => {
   const {
