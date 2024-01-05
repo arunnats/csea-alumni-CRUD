@@ -63,11 +63,15 @@ app.get('/registration', async (req, res) => {
 });
 
 app.get('/dashboard', async (req, res) => {
-  try {
-    res.render('dashboard');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+  if(req.isAuthenticated()){
+    try {
+      res.render('dashboard');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  }else{
+    res.redirect('/');
   }
 });
 
