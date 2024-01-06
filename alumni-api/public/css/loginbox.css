@@ -89,7 +89,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start; /* Align items to the start */
+  align-items: flex-start;
   align-items: center;
   background: #fbf5ec;
   max-width: 95%;
@@ -142,13 +142,13 @@
   display: flex;
   flex-wrap:wrap;
   flex-direction: column;
-  justify-content: center; /* Align dynamic content to the start */
+  justify-content: center; 
   align-items: center;
 }
 
 #dynamicContent div {
   margin: 8px;
-  max-width: 500px; /* Adjust the max-width as needed */
+  max-width: 500px; 
 }
 
 #dynamicContent label {

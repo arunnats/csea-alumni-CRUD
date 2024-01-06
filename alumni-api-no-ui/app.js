@@ -106,6 +106,13 @@ app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) =>
   }
 });
 
+app.get('/api/alumni/logout', (req, res) => {
+  req.logout(() => {
+    res.redirect('/');
+  });
+});
+
+
 // Alumni Profile Update (Update - PUT)
 app.put('/api/alumni/update/:alumniID', async (req, res) => {
   try {

@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>Alumni Api's CSEA</title>
-    <link href="../css/styles.css" rel="stylesheet">
-    <link href="../css/loginbox.css" rel="stylesheet">
+    <title>Alumni Apis CSEA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/loginbox.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -12,6 +16,7 @@
             <h3>Alumni Affairs Management - CSEA</h3>
         </div>
     </header>
+    
     <main>
         <div class="admin-page">
             <div>
@@ -25,17 +30,26 @@
                         <button class="adminButton" id="changePasswordButton" type="button">Change Password</button>
                         <button class="adminButton" id="deleteAlumniButton" type="button">Delete Alumni</button>
                     </form>
+                    <form class="login-form" id="login-form" action="/api/alumni/logout" method="get">
+                        <button id="logoutButton" type="submit">Log Out</button>
+                    </form>
                 </div>
                 <div id="dynamicContent"></div>
             </div>
         </div>
     </main>
+
     <script>
         $(document).ready(function () {
             $('.adminButton').click(function () {
                 const action = $(this).text(); 
                 let field;
                 generateInputFields(action);
+            });
+
+            $('#logoutButton').click(function () {
+                const form = $(this).closest('form');
+                form.submit();
             });
 
             function generateInputFields(action) {
@@ -66,15 +80,13 @@
                         break;
 
                     case 'Show All':
-                        // Handle the "Show All" functionality here
                         const apiUrl = 'http://localhost:3000/api/alumni/all';
-
+    
                         fetch(apiUrl)
                             .then(response => response.json())
                             .then(data => {
-                                // Handle the response data as needed
                                 console.log('All Alumni:', data);
-                                // Update the UI or perform other actions
+                                displayAlumniData(data);
                             })
                             .catch(error => console.error(error));
                         break;
@@ -122,17 +134,26 @@
                     .catch(error => console.error(error));
             }
 
+            function displayAlumniData(data) {
+                const table = $('<table><tr><th>Alumni ID</th><th>Name</th><th>Graduation Year</th><th>Current Job</th></tr></table>');
+    
+                data.forEach(alumni => {
+                    const row = `<tr><td>${alumni.alumniID}</td><td>${alumni.name}</td><td>${alumni.graduationYear}</td><td>${alumni.currentJob}</td></tr>`;
+                    table.append(row);
+                });
+    
+                $('#dynamicContent').append(table);
+            }
+
             function handleAction(action, inputData) {
                 console.log(`Action: ${action}`);
                 console.log('Input Data:', inputData);
 
                 const apiUrl = 'http://localhost:3000/api/alumni/' + field;
 
-                // Send a POST request with the input data
                 sendPostRequest(apiUrl, inputData)
                     .then(response => {
                         console.log('Server response:', response);
-                        // Handle the response as needed
                     });
             }
         });

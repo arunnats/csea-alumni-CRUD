@@ -63,22 +63,25 @@ app.get('/registration', async (req, res) => {
 });
 
 app.get('/dashboard', async (req, res) => {
-  if(req.isAuthenticated()){
-    try {
+  try {
+    if (req.isAuthenticated()) {
       res.render('dashboard');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/');
     }
-  }else{
-    res.redirect('/');
+  } catch (error) {
+    console.error('Error in /dashboard route:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
-app.get('/logout. ',async (req, res) => {
-  req.logout();
-  res.redirect('/login');
+
+app.get('/api/alumni/logout', (req, res) => {
+  req.logout(() => {
+    res.redirect('/');
+  });
 });
+
 
 app.post('/api/alumni/register', async (req, res) => {
   const {
@@ -108,15 +111,7 @@ app.post('/api/alumni/register', async (req, res) => {
 
     await Alumni.register(newAlumni, password);
 
-    res.status(201).json({
-      username: newAlumni.username,
-      name: name,
-      graduationYear: newAlumni.graduationYear,
-      contactNumber: newAlumni.contactNumber,
-      email: newAlumni.email,
-      currentJob: newAlumni.currentJob,
-      alumniID: newAlumni.alumniID,
-    });
+    res.redirect("/");
   } catch (error) {
     console.error('Error registering alumni:', error);
     res.status(500).send('Internal Server Error');
@@ -125,15 +120,8 @@ app.post('/api/alumni/register', async (req, res) => {
 
 app.get('/api/alumni/login', passport.authenticate('local'), async (req, res) => {
   try {
-    res.status(200).json({
-      id: req.user._id,
-      username: req.user.username,
-      name: req.user.name,
-      graduationYear: req.user.graduationYear,
-      contactNumber: req.user.contactNumber,
-      email: req.user.email,
-      currentJob: req.user.currentJob,
-    });
+    res.redirect("/dashboard");
+
   } catch (error) {
     console.error('Error during alumni login:', error);
     res.status(500).send('Internal Server Error');
